@@ -1,0 +1,20 @@
+body {
+  font: sans-serif;
+  background: #aeaeae;
+  color: #141414;
+}
+
+.main-form {
+  display:    flex;
+  position:   relative;
+  width:      70%;
+  padding:    10px;
+  background: #2baeae;
+  left:       50%;
+  transform:  translateX(-50%);
+
+  justify-content: center;
+}
+
+.dropdown-input {
+}

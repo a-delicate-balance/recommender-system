@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Sustainability Recommendation System</title>
+    <link href={{style}} rel="stylesheet" />
+  </head>
+  <body>
+    <h1>Sustainability Recommendation System</h1>
+    <div class="main-form">
+      <form class="debug-form">
+        <div class="dropdown-input>
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+              <option value="none">Prefer not to say</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="non-binary">Non-binary</option>
+          </select>
+        </div><br>
+        <div class="dropdown-input>
+          <label for="diet-type">Diet Type</label>
+          <select id="diet-type" name="diet-type">
+              <option value="balanced">Balanced</option>
+              <option value="plant">Mostly Plant-based</option>
+              <option value="animal">Mostly Animal-based</option>
+          </select>
+        </div><br>
+        <div class="dropdown-input>
+          <label for="local-food-frequency">Local Food Frequency</label>
+          <select id="local-food-frequency" name="local-food-frequency">
+              <option value="always">Always</option>
+              <option value="often">Often</option>
+              <option value="sometimes">Sometimes</option>
+              <option value="rarely">Rarely</option>
+          </select>
+        </div><br>
+        <div class="dropdown-input>
+          <label for="transport-type">Transportation Type</label>
+          <select id="transport-type" name="transport-type">
+              <option value="car">Car</option>
+              <option value="bike">Bike</option>
+              <option value="transit">Public Transit</option>
+              <option value="Walk">Walk</option>
+          </select>
+        </div><br>
+        <div class="dropdown-input>
+          <label for="energy-type">Energy Type</label>
+          <select id="energy-type" name="energy-type">
+              <option value="non-renewable">Non-Renewable</option>
+              <option value="renewable">Renewable</option>
+              <option value="mixed">Mixed</option>
+          </select>
+        </div><br>
+        <div class="dropdown-input>
+          <label for="location-type">Location Type</label>
+          <select id="location-type" name="location-type">
+              <option value="urban">Urban</option>
+              <option value="suburban">Suburban</option>
+              <option value="rural">Rural</option>
+          </select>
+        </div><br>
+        <div class="dropdown-input>
+          <label for="home-type">Home Type</label>
+          <select id="home-type" name="home-type">
+              <option value="house">House</option>
+              <option value="apartment">Apartment</option>
+          </select>
+        </div><br>
+        <div class="numerical-input">
+          <label for="house-size">House Size</label>
+          <input id="house-size" name="house-size" type="number" step="1">
+        </div><br>
+        <div class="dropdown-input>
+          <label for="clothing-frequency">New Clothing Purchase Frequency</label>
+          <select id="clothing-frequency" name="clothing-frequency">
+              <option value="often">Often</option>
+              <option value="sometimes">Sometimes</option>
+              <option value="rarely">Rarely</option>
+          </select>
+        </div><br>
+        <div class="checkbox-input">
+          <input id="sustainable-brands" name="sustainable-brands" type="checkbox">
+          <label for="sustainable-brands">Do you prioritize purchasing from sustainable brands?</label>
+        </div><br>
+        <div class="slider-input">
+          <label for="environmental-awareness">What would you rate your environmental awareness as, out of 5?</label><br>
+          <input id="environmental-awareness" name="environmental-awareness" type="range" step="1" min="1" max="5">
+        </div><br>
+        <div class="dropdown-input>
+          <label for="community-frequency">How often are you involved with the Community</label>
+          <select id="community-frequency" name="community-frequency">
+              <option value="high">Often</option>
+              <option value="moderate">Sometimes</option>
+              <option value="rarely">Rarely</option>
+          </select>
+        </div><br>
+        <div class="numerical-input">
+          <label for="water-consumption">Your Monthly Water Consumption</label>
+          <input id="water-consumption" name="water-consumption" type="number" step="50">
+        </div><br>
+        <div class="dropdown-input>
+          <label for="plastic-products-frequency">How often do you use plastic products?</label>
+          <select id="plastic-products-frequency" name="plastic-products-frequency">
+              <option value="often">Often</option>
+              <option value="sometimes">Sometimes</option>
+              <option value="rarely">Rarely</option>
+              <option value="never">Never</option>
+          </select>
+        </div><br>
+        <div class="dropdown-input>
+          <label for="disposal-methods">How often do you use plastic products?</label>
+          <select id="disposal-methods" name="disposal-methods">
+              <option value="recycling">Recycling</option>
+              <option value="landfill">Landfill</option>
+              <option value="composting">Composting</option>
+              <option value="combination">Combination</option>
+          </select>
+        </div><br>
+          <input type="submit" value="Submit"/>
+      </form>
+    </div>
+    {% if config['DEBUG'] %}
+    <p><u>DEBUG CONFIG DETECTED</u></p>
+        <pre>
+            <code>
+                {{ config }}
+            </code>
+        </pre>
+
+        <style>
+            pre {
+                white-space: pre-wrap;
+            }
+        </style>
+    {% endif %}
+  </body>
+</html>
