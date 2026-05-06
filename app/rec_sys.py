@@ -2,7 +2,6 @@ import os
 
 import kagglehub
 import pandas as pd
-import streamlit as st
 from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder, StandardScaler
@@ -54,7 +53,6 @@ products_df["cluster"] = kmeans.fit_predict(X)
 
 def match_user_to_cluster(user_input, users_df, scaler, kmeans):
     # Convert user_input to a DataFrame row
-    st.write(user_features.columns)
     input_df = pd.DataFrame([user_input], columns=user_features.columns)
     for col in input_df.columns:
         input_df[col] = le.fit_transform(input_df[col])

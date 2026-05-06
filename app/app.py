@@ -27,7 +27,6 @@ with st.form("main_form"):
 
     submitted = st.form_submit_button("Submit")
     if submitted:
-        st.write(options_list)
         user_cluster = match_user_to_cluster(options_list, users_df, scaler, kmeans)
         cluster_products = products_df[products_df["cluster"] == user_cluster]
         if not cluster_products.empty:
