@@ -1,24 +1,78 @@
 import numpy as np
 import pandas as pd
 import streamlit as st
-from rec_sys import users_df
+from rec_sys import (
+    kmeans,
+    match_user_to_cluster,
+    products_df,
+    scaler,
+    users_df,
+)
 
 st.title("Sustainable Product Recommendation System")
 with st.form("main_form"):
-    options_list = list()
+    options_list = []
     for col in users_df.columns:
+        if col == "cluster":
+            continue
         options = users_df[col].unique()
-        if len(options.tolist()) < 5:
-            print(col, "->", type(users_df[col].dtype))
+        if len(options) <= 10:
             if type(users_df[col].dtype) is pd.StringDtype:
-                options_list.append(st.selectbox(col, tuple(options)))
-            elif users_df[col].dtype == np.bool:
+                options_list.append(st.selectbox(col, options))
+            elif users_df[col].dtype == bool:
                 options_list.append(st.checkbox(col))
+            elif np.issubdtype(users_df[col].dtype, np.number):
+                options_list.append(
+                    st.slider(
+                        col, float(users_df[col].min()), float(users_df[col].max())
+                    )
+                )
 
     submitted = st.form_submit_button("Submit")
     if submitted:
-        st.write("submitted")
         st.write(options_list)
+        user_cluster = match_user_to_cluster(options_list, users_df, scaler, kmeans)
+        cluster_products = products_df[products_df["cluster"] == user_cluster]
+        if not cluster_products.empty:
+            st.subheader("Recommended Products")
+            for title in cluster_products["title"].head(5):
+                st.write(f"- {title}")
+        else:
+            st.write("No recommendations found for this profile.")
+
+# st.title("Sustainable Product Recommendation System")
+# with st.form("main_form"):
+#     options_list = list()
+#     for col in users_df.columns:
+#         options = users_df[col].unique()
+#         if len(options.tolist()) < 5:
+#             print(col, "->", type(users_df[col].dtype))
+#             if type(users_df[col].dtype) is pd.StringDtype:
+#                 options_list.append(st.selectbox(col, tuple(options)))
+#             elif users_df[col].dtype == np.bool:
+#                 options_list.append(st.checkbox(col))
+#             elif np.issubdtype(users_df[col].dtype, np.number):
+#                 options_list.append(
+#                     st.slider(
+#                         col, float(users_df[col].min()), float(users_df[col].max())
+#                     )
+#                 )
+#
+#     submitted = st.form_submit_button("Submit")
+#     if submitted:
+#         user_cluster = match_user_to_cluster(options_list, users_df, scaler, kmeans)
+#         cluster_products = products_df[products_df["cluster"] == user_cluster]
+#         if not cluster_products.empty:
+#             st.subheader("Recommended Products")
+#             for title in cluster_products["title"].head(5):
+#                 st.write(f"- {title}")
+#         else:
+#             st.write("No recommendations found for this profile.")
+#
+# submitted = st.form_submit_button("Submit")
+# if submitted:
+#     st.write("submitted")
+#     st.write(options_list)
 
 # # Define the product we want to recommend other items from
 # product_title = "Agfabric Natural Jute Erosion Control, 16yard(50 feet Long) Jute Netting -8ft Wide Soil Saver Mesh Blanket-400 Sq.Ft.Coverage"
