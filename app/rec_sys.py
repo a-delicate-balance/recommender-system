@@ -10,13 +10,9 @@ products_path = kagglehub.dataset_download(
     "sofikulislam/amazon-eco-friendly-products-dataset"
 )
 
-print("Path to dataset files:", products_path)
-
 users_path = kagglehub.dataset_download(
     "naveennas/sustainable-lifestyle-rating-dataset"
 )
-
-print("Path to dataset files:", users_path)
 
 products_df = pd.read_csv(
     os.path.join(products_path, "amazon_eco-friendly_products.csv")
