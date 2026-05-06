@@ -17,12 +17,10 @@ import nltk.corpus
 import pandas as pd
 
 # Streamlit
-import streamlit as st
-
 # NLTK
 from nltk import SnowballStemmer
 from nltk.tokenize import word_tokenize
-from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 # Download latest version
@@ -41,6 +39,11 @@ print("Path to dataset files:", users_path)
 products_df = pd.read_csv(
     os.path.join(products_path, "amazon_eco-friendly_products.csv")
 ).dropna(subset=["title", "description"])
+
+users_df = pd.read_csv(
+    os.path.join(users_path, "lifestyle_sustainability_data.csv")
+).dropna()
+
 products_df["ensemble"] = products_df["title"] + " " + products_df["description"]
 corpus = products_df["ensemble"].tolist()
 
@@ -114,9 +117,9 @@ count_matrix = count_vect.fit_transform(corpus)
 
 # Compute the cosine similarity matrix
 cosine_sim = cosine_similarity(count_matrix, count_matrix)
-st.write(cosine_sim)
+# st.write(cosine_sim)
 indices = pd.Series(products_df.index, index=products_df["title"]).drop_duplicates()
-st.write(indices)
+# st.write(indices)
 
 
 # Function that takes in product title as input and gives recommendations
@@ -157,13 +160,14 @@ recommendations = pd.merge(
 )
 
 # Showing top 5 recommended products
-st.write(recommendations["title"].head())
+# st.write(recommendations["title"].head())
 
-vectorizer = TfidfVectorizer()
-X = vectorizer.fit_transform(corpus)
-tf_idf = pd.DataFrame(data=X.toarray(), columns=vectorizer.get_feature_names_out())
-
-final_df = tf_idf
-
-print("{} rows".format(final_df.shape[0]))
-st.write(final_df.T.nlargest(5, 0))
+# TFIDF-based, was not working that well
+# vectorizer = TfidfVectorizer()
+# X = vectorizer.fit_transform(corpus)
+# tf_idf = pd.DataFrame(data=X.toarray(), columns=vectorizer.get_feature_names_out())
+#
+# final_df = tf_idf
+#
+# print("{} rows".format(final_df.shape[0]))
+# st.write(final_df.T.nlargest(5, 0))
