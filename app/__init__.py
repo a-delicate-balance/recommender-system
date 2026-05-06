@@ -1,5 +1,3 @@
-from flask import Flask
-
-app = Flask(__name__)
+import streamlit as sl
 
 from app import app_routes
