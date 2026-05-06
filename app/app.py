@@ -16,17 +16,14 @@ with st.form("main_form"):
         if col == "cluster":
             continue
         options = users_df[col].unique()
-        if len(options) <= 10:
-            if type(users_df[col].dtype) is pd.StringDtype:
-                options_list.append(st.selectbox(col, options))
-            elif users_df[col].dtype == bool:
-                options_list.append(st.checkbox(col))
-            elif np.issubdtype(users_df[col].dtype, np.number):
-                options_list.append(
-                    st.slider(
-                        col, float(users_df[col].min()), float(users_df[col].max())
-                    )
-                )
+        if type(users_df[col].dtype) is pd.StringDtype:
+            options_list.append(st.selectbox(col, options))
+        elif users_df[col].dtype == bool:
+            options_list.append(st.checkbox(col))
+        elif np.issubdtype(users_df[col].dtype, np.number):
+            options_list.append(
+                st.slider(col, float(users_df[col].min()), float(users_df[col].max()))
+            )
 
     submitted = st.form_submit_button("Submit")
     if submitted:

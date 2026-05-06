@@ -2,9 +2,10 @@ import os
 
 import kagglehub
 import pandas as pd
+import streamlit as st
 from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 products_path = kagglehub.dataset_download(
     "sofikulislam/amazon-eco-friendly-products-dataset"
@@ -28,7 +29,11 @@ users_df = pd.read_csv(
 
 
 # Preprocess users_df for clustering
-user_features = users_df
+le = LabelEncoder()
+user_features = users_df.copy()
+for col in users_df.columns:
+    user_features[col] = le.fit_transform(users_df[col])
+
 scaler = StandardScaler()
 scaled_features = scaler.fit_transform(user_features)
 kmeans = KMeans(n_clusters=5, random_state=42)
@@ -39,7 +44,7 @@ users_df["cluster"] = kmeans.fit_predict(scaled_features)
 products_df["text"] = products_df["title"] + " " + products_df["description"]
 
 # TF-IDF Vectorization
-vectorizer = TfidfVectorizer(max_features=5000, stop_words="english")
+vectorizer = TfidfVectorizer(max_features=20, stop_words="english")
 X = vectorizer.fit_transform(products_df["text"])
 
 # Cluster
@@ -49,8 +54,10 @@ products_df["cluster"] = kmeans.fit_predict(X)
 
 def match_user_to_cluster(user_input, users_df, scaler, kmeans):
     # Convert user_input to a DataFrame row
-    print(user_features.columns[2:18])
-    input_df = pd.DataFrame([user_input], columns=user_features.columns[2:18])
+    st.write(user_features.columns)
+    input_df = pd.DataFrame([user_input], columns=user_features.columns)
+    for col in input_df.columns:
+        input_df[col] = le.fit_transform(input_df[col])
     input_scaled = scaler.transform(input_df)
     cluster = kmeans.predict(input_scaled)[0]
     return cluster
