@@ -18,8 +18,8 @@ with right:
     st.subheader("Recommended Products")
 with mid:
     with st.form("main_form"):
-        options_list = []
-        for col in users_df.columns:
+        options_list = [99999]
+        for col in users_df.columns[1:19]:
             if col == "cluster":
                 continue
             options = users_df[col].unique()
@@ -28,12 +28,22 @@ with mid:
             elif users_df[col].dtype == bool:
                 options_list.append(st.checkbox(col))
             elif np.issubdtype(users_df[col].dtype, np.number):
-                options_list.append(
-                    st.slider(
-                        col, float(users_df[col].min()), float(users_df[col].max())
+                if len(options) <= 5:
+                    options_list.append(
+                        st.slider(
+                            col, users_df[col].min(), users_df[col].max(), width=300
+                        )
                     )
-                )
+                else:
+                    options_list.append(
+                        st.number_input(
+                            col,
+                            value=users_df[col].min(),
+                            step=1,
+                        )
+                    )
 
+        options_list.append(1)
         submitted = st.form_submit_button("Submit")
         if submitted:
             user_cluster = match_user_to_cluster(options_list, users_df, scaler, kmeans)

@@ -43,8 +43,8 @@ vectorizer = TfidfVectorizer(max_features=20, stop_words="english")
 X = vectorizer.fit_transform(products_df["text"])
 
 # Cluster
-kmeans = KMeans(n_clusters=10, random_state=42)
-products_df["cluster"] = kmeans.fit_predict(X)
+kmeans_products = KMeans(n_clusters=10, random_state=42)
+products_df["cluster"] = kmeans_products.fit_predict(X)
 
 
 def match_user_to_cluster(user_input, users_df, scaler, kmeans):
